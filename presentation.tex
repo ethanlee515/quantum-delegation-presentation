@@ -1,0 +1,316 @@
+\documentclass{beamer}
+
+\usepackage{braket}
+\usetheme{Copenhagen}
+
+\title{Learning with Errors and GSW's Homomorphic Encryption}
+
+\begin{document}
+
+\frame{
+	\titlepage
+}
+
+\frame{
+	\frametitle{Intuition of LWE}
+	$$14s_1+15s_2+5s_3+2s_4\approx8\pmod{17}$$
+	$$13s_1+14s_2+14s_3+6s_4\approx16\pmod{17}$$
+	$$6s_1+10s_2+13s_3+s_4\approx3\pmod{17}$$
+	$$10s_1+4s_2+12s_3+16s_4\approx12\pmod{17}$$
+	$$9s_1+5s_2+9s_3+6s_4\approx9\pmod{17}$$
+	$$3s_1+6s_2+4s_3+5s_4\approx16\pmod{17}$$
+	$$\vdots$$
+	$$6s_1+7s_2+16s_3+2s_4\approx3\pmod{17}$$
+}
+
+\frame{
+	\frametitle{Definition (LWE Problem)}
+	\begin{itemize}[<+->]
+		\item Pick uniformly random $\vec{s}\in\mathbb{Z}^n_q$
+		\item Take $\chi$ to be some discrete Gaussian distribution
+		\item Input: $A\in\mathbb{Z}^{m\times(n+1)}_q$;
+			sample each row as below:
+			\begin{itemize}[<+->]
+				\item pick coefficients $\vec{a}\in\mathbb{Z}^n_q$ at random
+				\item Sample error $e\leftarrow\chi$
+				\item Set $b=\vec{a}\cdot\vec{s}+e$
+				\item Note that $\begin{pmatrix}b & -\vec{a}^T\end{pmatrix}
+					\begin{pmatrix}1\\\vec{s}\end{pmatrix} = e$
+				\item Output $\begin{pmatrix}b & -\vec{a}^T\end{pmatrix}$
+			\end{itemize}
+		\item Output: $\vec{s}$
+		\item Note that $A\begin{pmatrix}1\\\vec{s}\end{pmatrix}=\vec{e}$
+	\end{itemize}
+}
+
+\frame{
+	\frametitle{Homomorphic encryption}
+	Allows secure communication by using the tools below:
+	\pause
+	\begin{itemize}[<+->]
+		\item $pk$: ``public key" for encryption $\textnormal{Enc}_{pk}$
+		\item $sk$: ``secret key" for decryption $\textnormal{Dec}_{sk}$
+		\item $evk$: ``evaluation key"
+		\item $\textnormal{Eval}_{evk}(f,
+			\textnormal{Enc}(\mu_1),\ldots,\textnormal{Enc}(\mu_n))=
+			\textnormal{Enc}(f(\mu_1,\ldots,\mu_n))$
+	\end{itemize}
+}
+
+\frame{
+	\frametitle{Idea of GSW's homomorphic encryption}
+	\begin{itemize}[<+->]
+		\item $C\vec{v}\approx\mu\vec{v}$
+		\item $sk=\vec{v}$
+		\item $C=\textnormal{Enc}(\mu)$
+		\item $(C_1+C_2)\vec{v}\approx(\lambda_1+\lambda_2)\vec{v}$
+		\item $(C_1C_2)\vec{v}\approx(\lambda_1\lambda_2)\vec{v}$
+		\item $\textnormal{Enc}(\neg(\mu_0\wedge\mu_1))=I-C_1C_2$.
+	\end{itemize}
+}
+
+\frame{
+	\frametitle{GSW's homomorphic encryption - naive approach}
+	\begin{itemize}[<+->]
+		\item Take $A\vec{s}=\vec{e}$ as given by LWE.
+		\item Sample $R\in\set{0,1}^{(n+1)\times m}$ randomly
+		\item Observe $(\mu I_{n+1}+RA)\vec{s}\approx\mu\vec{s}$
+		\item Challenge: Error grows too quickly
+	\end{itemize}
+}
+
+\frame{
+	\frametitle{Terminology}
+	\begin{itemize}[<+->]
+		\item For the sake of illustration, set $q=2^4$.
+		\item Let $a=\underline{a_3a_2a_1a_0}=\sum 2^ia_i$ represent
+			the base-2 digits of $a$
+		\item Similarly, denote base-2 numbers like
+			$\underline{1011}=8+2+1=11$
+	\end{itemize}
+}
+	
+
+\frame{
+	\frametitle{GSW's tools - Powersof2}
+	\begin{itemize}[<+->]
+		\item $\textnormal{Powersof2}(a)=(2^3a, 2^2a, 2a, a)
+			=\begin{pmatrix}2^3a\\2^2a\\2a\\a\end{pmatrix}$
+		\item $\textnormal{Powersof2}(\underline{11})= (\underline{1000},
+			\underline{1100}, \underline{110}, \underline{11})$
+		\item $\textnormal{Powersof2}(a, b)
+			=(2^3a, 2^2a, 2a, a, 2^3b, 2^2b, 2b, b)$
+	\end{itemize}
+}
+
+\frame{
+	\frametitle{GSW's tools - BitDecomp}
+	\begin{itemize}[<+->]
+		\item $\textnormal{BitDecomp}(\underline{a_3a_2a_1a_0})=
+			\begin{pmatrix} a_3 & a_2 & a_1 & a_0 \end{pmatrix}$
+		\item $\textnormal{BitDecomp}
+			\begin{pmatrix}
+				\underline{a_3a_2a_1a_0} & \underline{b_3b_2b_1b_0} \\
+				\underline{c_3c_2c_1c_0} & \underline{d_3d_2d_1d_0}
+			\end{pmatrix}
+			= \begin{pmatrix}
+				a_3 & a_2 & a_1 & a_0 & b_3 & b_2 & b_1 & b_0 \\
+				c_3 & c_2 & c_1 & c_0 & d_3 & d_2 & d_1 & d_0
+			\end{pmatrix}$
+		\item $\textnormal{BitDecomp}(A)
+			\textnormal{Powersof2}(\vec{b})
+			=A\vec{b}$
+	\end{itemize}
+}
+
+\frame{
+	\frametitle{GSW's tools - $\textnormal{BitDecomp}^{-1}$}
+	\begin{itemize}[<+->]
+		\item $\textnormal{BitDecomp}^{-1}\begin{pmatrix}
+			1 & 0 & 0 & 1
+		\end{pmatrix} = \underline{1001}$
+		\item $\textnormal{BitDecomp}^{-1}\begin{pmatrix}
+			a_3 & a_2 & a_1 & a_0
+		\end{pmatrix} = \sum2^ia_i$
+		\item $\textnormal{BitDecomp}^{-1}\begin{pmatrix}
+			0 & 0 & \underline{10} & 0
+		\end{pmatrix} = \underline{0100}$
+		\item $A\textnormal{Powersof2}(\vec{b})
+			=\textnormal{BitDecomp}^{-1}(A)\vec{b}$
+	\end{itemize}
+}
+
+\frame{
+	\frametitle{GSW's tools (Flatten)}
+	\begin{itemize}[<+->]
+		\item $\textnormal{Flatten}=\textnormal{BitDecomp}\circ
+			\textnormal{BitDecomp}^{-1}$
+		\item $\textnormal{Flatten}
+			\begin{pmatrix}
+				\underline{110} & \underline{101} & 1 & \underline{11}
+			\end{pmatrix}$
+		\item $=\textnormal{BitDecomp}\circ\textnormal{BitDecomp}^{-1}
+			\begin{pmatrix}
+				\underline{110} & \underline{101} & 1 & \underline{11}
+			\end{pmatrix}$
+		\item $=\begin{pmatrix}1&0&0&1\end{pmatrix}$
+		\item $\textnormal{Flatten}(A)$ has only $0, 1$ entries
+		\item $\textnormal{Flatten}(A)\textnormal{Powersof2}(\vec{b})
+			=A\textnormal{Powersof2}(\vec{b})$
+	\end{itemize}
+}
+
+\frame{
+	\frametitle{GSW's Construction - Overview}
+	\begin{align*}
+		\onslide<1->{&\textnormal{Flatten}(\mu I_N+\textnormal{BitDecomp}(RA))
+			\textnormal{Powersof2}\begin{pmatrix} 1 \\ \vec{s}\end{pmatrix}\\}
+		\onslide<2->{&=(\mu I_N+\textnormal{BitDecomp}(RA))
+			\textnormal{Powersof2}\begin{pmatrix} 1 \\ \vec{s}\end{pmatrix}\\}
+		\onslide<3->{&=\mu\textnormal{Powersof2}
+			\begin{pmatrix} 1 \\ \vec{s}\end{pmatrix} +
+			\textnormal{BitDecomp}(RA)
+			\textnormal{Powersof2}\begin{pmatrix} 1 \\ \vec{s}\end{pmatrix}\\}
+		\onslide<4->{&=\mu\textnormal{Powersof2}
+			\begin{pmatrix} 1 \\ \vec{s}\end{pmatrix} +
+			RA\begin{pmatrix} 1 \\ \vec{s}\end{pmatrix}\\}
+		\onslide<5->{&\approx\mu\textnormal{Powersof2}
+			\begin{pmatrix} 1 \\ \vec{s}\end{pmatrix}}
+	\end{align*}
+}
+
+\frame{
+	\frametitle{GSW's Construction - Setup}
+	Choose the following parameters:
+	\begin{itemize}[<+->]
+		\item Modulus $q=2^l$ (to simplify some proofs)
+		\item Lattice dimension $n$
+		\item Error distribution $\chi(\lambda, L)$
+		\item $m\in O(n\log q)$
+	\end{itemize}
+}
+
+\frame{
+	\frametitle{GSW's Construction - Secret Keygen}
+	\begin{enumerate}[<+->]
+		\item Sample $\vec{s}\leftarrow\mathbb{Z}^n_q$ uniformly.
+			This represents the solution of the LWE system of equations.
+		\item Set $sk=\begin{pmatrix}1\\\vec{s}\end{pmatrix}$
+	\end{enumerate}
+}
+
+\frame{
+	\frametitle{GSW's Construction - Public Keygen}
+	\begin{enumerate}[<+->]
+		\item Generate $A\leftarrow\mathbb{Z}^{m\times n}_q$ uniformly
+		\item Sample $\vec{e}\leftarrow\chi^m$
+		\item Set $pk$ as $A\vec{s}+\vec{e}$ on the first column,
+			followed by the columns of $A$.
+		\item Observe that $pk\cdot sk=\vec{e}$
+	\end{enumerate}
+}
+
+\frame{
+	\frametitle{GSW's Construction - Encryption}
+	Input: $\mu$
+	\begin{enumerate}[<+->]
+		\item Sample $R\in\{0, 1\}^{N\times m}$
+		\item Output $\textnormal{Flatten}(
+			\mu\cdot I_N+\textnormal{BitDecomp}(R\cdot pk))$
+	\end{enumerate}
+}
+
+\frame{
+	\frametitle{GSW's Construction - Decryption}
+	\begin{itemize}[<+->]
+		\item We have $\mu\textnormal{Powersof2}(sk) + R\cdot pk\cdot sk$
+		\item The second term is small.
+		\item The first coordinate of $sk$ is $1$.
+		\item $\Rightarrow$ The first components of 
+			the first term are $2^{l-1}\mu, 2^{l-2}\mu, \ldots, \mu$
+		\item Recover $\mu$'s least significant bit by $LSB(\mu)=2^{l-1}\mu$
+		\item Recover $\mu$'s next bit by $2^{l-2}(\mu-LSB(\mu))$
+		\item Similar for all other bits of $\mu$.
+		\item Decryption breaks down when the error reaches $q/4$.
+	\end{itemize}
+}
+
+\frame{
+	\frametitle{GSW's Construction - Security}
+	\begin{itemize}[<+->]
+		\item $\textnormal{BitDecomp}^{-1}(C)
+			=\mu\cdot\textnormal{BitDecomp}^{-1}(I)+R\cdot A$
+		\item Fact: If $m$ is big enough, $(A, R\cdot A)$ is
+			computationally indistinguishable from uniform
+		\item $\Rightarrow\textnormal{BitDecomp}^{-1}(C)$ hides $\mu$
+		\item $\Rightarrow C=\textnormal{Flatten}(C)
+			=\textnormal{BitDecomp}\circ\textnormal{BitDecomp}^{-1}(C)$
+			hides $\mu$
+	\end{itemize}
+}
+
+\frame{
+	\frametitle{GSW's Construction - Multiplying by constant}
+	Input: $C, \alpha$
+	\begin{itemize}[<+->]
+		\item Set $M_\alpha=\textnormal{Flatten}(\alpha I)$	
+		\item Output $\textnormal{Flatten}(M_\alpha\cdot C)$
+		\item Observe $M_\alpha\cdot C\vec{v}
+			=M_\alpha\cdot(\mu\vec{v}+\vec{e})
+			=\alpha\mu\vec{v}+M_\alpha\cdot{e}$
+		\item Error increases by a factor of $N$
+	\end{itemize}
+}
+
+\frame{
+	\frametitle{GSW's Construction - Addition}
+	\begin{itemize}[<+->]
+		\item Output $\textnormal{Flatten}(C_1+C_2)$
+		\item Error increases by a factor of 2
+	\end{itemize}
+}
+
+\frame{
+	\frametitle{GSW's Construction - Multiplication}
+	\begin{itemize}[<+->]
+		\item Output $\textnormal{Flatten}(C_1C_2)$
+		\item $C_1\cdot C_2\vec{v}=C_1(\mu_2\vec{v}+\vec{e}_2)
+			=\mu_1\mu_2\vec{v}+\mu_2\vec{e}_1+C_1\vec{e}_2$
+		\item Error increase depends on what's encrypted
+		\item May need to assume bounds on the values being computed
+	\end{itemize}
+}
+
+\frame{
+	\frametitle{GSW's Construction - NAND}
+	\begin{itemize}[<+->]
+		\item $\textnormal{Enc}(\neg(\mu_1\wedge\mu_2))=
+			\textnormal{Flatten}(I_N-C_1\cdot C_2)\vec{v}$
+		\item Error increased by a factor of $N+1$.
+		\item In boolean circuits, final error increases by a factor of
+			$(N+1)^L$
+	\end{itemize}
+}
+
+\frame{
+	\frametitle{Choosing parameters}
+	\begin{itemize}[<+->]
+		\item $\frac{q}{B}>4(N+1)^L$ for NANDs
+		\item $\frac{q}{B}>4(N+T)^L$ for arithmetic circuit,
+			where $T$ is the upper bound on plaintexts
+		\item $n$ increases linearly with $\log\frac{q}{B}$ for LWE's security
+		\item Pick $(q, B, n)$ accordingly
+	\end{itemize}
+}
+
+\frame{
+	\frametitle{References}
+	\begin{itemize}
+		\item O. Regev. The Learning with Errors Problem.
+		\item C. Gentry, A. Sahai, B. Waters.
+			Homomorphic Encryption from Learning with Errors:
+			Conceptually-Simpler, Asymptotically-Faster, Attribute-Based.
+	\end{itemize}
+}
+
+\end{document}
