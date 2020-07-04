@@ -6,6 +6,7 @@
 \input{macros}
 
 \usetikzlibrary{shapes.callouts}
+\usetikzlibrary{cd}
 \usetheme{Copenhagen}
 
 \title{Constant-round Blind Classical Verification of Quantum Sampling}
@@ -46,10 +47,14 @@
 	\end{itemize}
 }
 
-\frame{
+\begin{frame}[fragile]
 	\frametitle{Quantum Homomorphic Encryption Schemes}
+	\begin{tikzcd}
+		X & Y \\
+		Z & A
+	\end{tikzcd}
 
-}
+\end{frame}
 
 \frame{
 	\frametitle{Compiler for blindness}
