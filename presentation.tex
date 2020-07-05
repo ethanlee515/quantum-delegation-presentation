@@ -35,10 +35,29 @@
 
 \begin{frame}
 	\frametitle{How would I get scammed?}
+	\pause
 	\begin{itemize}[<+->]
-		\item It doesn't even work! (correctness) (Solved for BQP)
-		\item Stolen data (privacy)
-		\item Our first contribution: compose the above solutions
+		\item It doesn't even work! \emph{(verifiability)}
+		\item My data is stolen! \emph{(blindness)}
+		\item Our first contribution: prevent both at the same time.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Verifiability}
+	\begin{itemize}[<+->]
+		\item \emph{Quantum Merlin Arthur}-based solutions
+		\item MF16 - for $\BQP$ only; requires the client to hold 1 qubit
+		\item Mahadev - \emph{Measurement protocol} to allow fully classical client
+		\item parallel rep - Parallel repetition of above
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Blindness}
+	\begin{itemize}[<+->]
+		\item \emph{Homomorphic encryption}-based solutions
+		\item Mahadev - Fully classical client
 	\end{itemize}
 \end{frame}
 
