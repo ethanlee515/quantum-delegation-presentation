@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
 set -e
-pdflatex presentation.tex
+make
 cp presentation.pdf ~/Desktop/
