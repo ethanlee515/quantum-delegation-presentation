@@ -263,7 +263,7 @@
 	\frametitle{Verification of $\SampBQP$}
 	\begin{itemize}[<+->]
 		\item First use \emph{de Finetti's theorem} to approximate the copies as iid.
-		\item Pad the circuit with identity gates at the end, so there's high probability to get $C(x)$ when $\histpsi{C(x)}$ is measured
+		\item Pad the circuit with identity gates so there's high probability to get $C(x)$ when $\ket{\histpsi{C(x)}}$ is measured
 		\item Cut-and-choose; pick a random copy to output and check the rest.
 	\end{itemize}
 \end{frame}
@@ -274,18 +274,49 @@
 		\label{deFinetti}
 		Let $\rho^{A_1\ldots A_k}$ be a permutation-invariant state on registers $A_1,\ldots,A_k$ where each register contains $s$ qubits.
 		For any $0\leq l\leq k$,  there exists states $\set{\rho_i}$ and $\set{p_i}\subset\bbR$ such that
-		$$\max_{\Lambda_1,\ldots,\Lambda_l}
-		\norm{(\Lambda_1\otimes\ldots\otimes\Lambda_l)\left(\rho^{A_1\ldots A_l}-\sum_ip_i\rho_i^{A_1}\otimes\ldots\otimes\rho_i^{A_l}\right)}_1
-		\leq\sqrt{\frac{2l^2s}{k-l}}$$
+		\begin{align*}
+			\max_{\Lambda_1,\ldots,\Lambda_l}
+			\norm{ (\Lambda_1\otimes\ldots\otimes\Lambda_l)\left(\rho^{A_1\ldots A_l}-\sum_ip_i\rho_i^{A_1}\otimes\ldots\otimes\rho_i^{A_l}\right)}_1 \\
+			\leq\sqrt{\frac{2l^2s}{k-l}}
+		\end{align*}
 		where $\Lambda_i$ are quantum-classical channels.
 	\end{theorem}
-
 \end{frame}
 
 \begin{frame}
 	\frametitle{Mahadev's measurement protocol}
-	Four-round
+	$(pk, sk)\leftarrow\cV_1(1^\lambda, h)$
+	\pause
+	\\\hspace*{\fill}$\xrightarrow{\qquad pk\qquad}$\hspace*{\fill}
+	\pause
+	\\\hspace*{\fill}$(y, \sigma)\leftarrow\cP_1(pk, \rho)$
+	\pause
+	\\\hspace*{\fill}$\xleftarrow{\qquad y\qquad}$\hspace*{\fill}
+	\pause
+	\\$c\xleftarrow{\$}\zo$
+	\pause
+	\\\hspace*{\fill}$\xrightarrow{\qquad c\qquad}$\hspace*{\fill}
+	\pause
+	\\\hspace*{\fill}$a\leftarrow\cP_4(pk, c, \sigma)$
+	\pause
+	\\\hspace*{\fill}$\xleftarrow{\qquad a\qquad}$\hspace*{\fill}
+	\pause
+	\\If $c=0$, $o\leftarrow\cV_T(pk, y, a)$.
+	\pause
+	\\If $c=1$, $v\leftarrow\cV_H(sk, h, y, a)$.
+\end{frame}
 
+\begin{frame}
+	\frametitle{Binding property}
+	Under the QLWE assumption...
+	\begin{itemize}
+		\item Let prover
+		\item Let sec param
+		\item If pass
+		\item Exists state
+		\item For all h
+		\item v indis from measurement on rho
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
