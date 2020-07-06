@@ -139,25 +139,25 @@
 
 \begin{frame}
 	\frametitle{$\Pi_\blind=(P_\blind, V_\blind(x))(\lambda)$ cont.}
-	$v_i\leftarrow\cV_i(p_{i-1}, st_{V, i-1})$
+	$v_2\leftarrow\cV_2(p_{1}, st_{V, i})$
 	\pause
-	\\$(pk_i, sk_i)\leftarrow\Gen(1^\lambda, 1^L)$
+	\\$(pk_2, sk_2)\leftarrow\Gen(1^\lambda, 1^L)$
 	\pause
-	\\$\ctx{sk}{i-1}{i}\leftarrow\Enc(pk_i, sk_{i-1})$
+	\\$\ctx{sk}{1}{2}\leftarrow\Enc(pk_2, sk_{1})$
 	\pause
-	\\$\ctx{v}{i}{i}\leftarrow\Enc(pk_i, v_i)$
+	\\$\ctx{v}{2}{2}\leftarrow\Enc(pk_2, v_2)$
 	\pause
-	\\\hspace*{\fill}$\xrightarrow{\qquad \ctx{sk}{i-1}{i}, \ctx{v}{i}{i}\qquad}$\hspace*{\fill}
+	\\\hspace*{\fill}$\xrightarrow{\qquad \ctx{sk}{1}{2}, \ctx{v}{2}{2}\qquad}$\hspace*{\fill}
 	\pause
-	\\\hspace*{\fill}$\ctx{st}{i-1}{i-1, i}\leftarrow\Enc(pk_i, \ctx{st}{i-1}{i-1})$
+	\\\hspace*{\fill}$\ctx{st}{1}{1, 2}\leftarrow\Enc(pk_2, \ctx{st}{1}{1})$
 	\pause
-	\\\hspace*{\fill}$\ctx{st}{i-1}{i}\leftarrow\Eval(pk_i, \Dec, \ctx{sk}{i-1}{i}, \ctx{st}{i-1}{i-1})$
+	\\\hspace*{\fill}$\ctx{st}{1}{2}\leftarrow\Eval(pk_2, \Dec, \ctx{sk}{1}{2}, \ctx{st}{1}{1})$
 	\pause
-	\\\hspace*{\fill}$(\ctx{p}{i}{i}, \ctx{st}{P, i}{i})\leftarrow\Eval(pk, \cP_i, \ctx{v}{i}{i}, \ctx{st}{P, i-1}{i})$
+	\\\hspace*{\fill}$(\ctx{p}{2}{2}, \ctx{st}{P, 2}{2})\leftarrow\Eval(pk, \cP_2, \ctx{v}{2}{2}, \ctx{st}{P, 1}{2})$
 	\pause
-	\\\hspace*{\fill}$\xleftarrow{\qquad \ctx{p}{i}{i}\qquad}$\hspace*{\fill}
+	\\\hspace*{\fill}$\xleftarrow{\qquad \ctx{p}{2}{2}\qquad}$\hspace*{\fill}
 	\pause
-	\\$p_i\leftarrow\Dec(sk_i, \ctx{p}{i}{i})$
+	\\$p_2\leftarrow\Dec(sk_2, \ctx{p}{2}{2})$
 \end{frame}
 
 \begin{frame}
