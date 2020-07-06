@@ -91,7 +91,6 @@
 
 \begin{frame}
 	\frametitle{Compiler for blindness: Generic $\Pi=(P, V)(\lambda, x)$}
-	\pause
 	$(v_1, st_{V, 1})\leftarrow\cV_1(1^\lambda, x)$
 	\pause
 	\\\hspace*{\fill}$\xrightarrow{\qquad v_1\qquad}$\hspace*{\fill}
@@ -215,10 +214,10 @@
 	\frametitle{Compiler for blindness: Blindness}
 	\begin{itemize}[<+->]
 		\item Suppose $\Vblind$ sends $\Enc(pk_T, 0)$ in place of $\ctx{sk}{T-1}{T}$...
-		\item then suppose $\Vblind$ sends $\Enc(pk_{T-1}, 0)$ in place of $\ctx{sk}{T-2}{T-1}$...
+		\item then sends $\Enc(pk_{T-1}, 0)$ in place of $\ctx{sk}{T-2}{T-1}$...
 		\item ...
-		\item then suppose $\Vblind$ sends $\Enc(pk_2, 0)$ in place of $\ctx{sk}{1}{2}$...
-		\item then suppose $\Vblind$ sends $\Enc(pk_1, 0)$ in place of $\ctx{x}{1}{1}$...
+		\item then sends $\Enc(pk_2, 0)$ in place of $\ctx{sk}{1}{2}$...
+		\item then sends $\Enc(pk_1, 0)$ in place of $\ctx{x}{1}{1}$...
 	\end{itemize}
 \end{frame}
 
@@ -234,15 +233,26 @@
 \begin{frame}
 	\frametitle{Verification}
 	\begin{itemize}[<+->]
-		\item For quantum circuit $C=U_T\ldots U_1$ and input $x\in\zo^n$, we define $$\histpsi{C(x)}=\frac{1}{\sqrt{T}}\sum_{t=0}^TU_t\ldots U_1\ket{x,0}\otimes\ket{\hat{t}}$$
-		\item One can construct some Hamiltonian $H_{C(x)}$ so that $$\ker H_{C(x)}=\Span\set{\histpsi{C(x)}}$$
+		\item For quantum circuit $C=U_T\ldots U_1$ and input $x\in\zo^n$, we define $$\ket{\histpsi{C(x)}}=\frac{1}{\sqrt{T}}\sum_{t=0}^TU_t\ldots U_1\ket{x,0}\otimes\ket{\hat{t}}$$
+		\item (\cite{kitaev2002classical}) One can construct some Hamiltonian $H_{C(x)}$ so that $$\ker H_{C(x)}=\Span\set{\ket{\histpsi{C(x)}}}$$
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Verification of $\BQP$}
 	\begin{itemize}[<+->]
-		\item Consider $H_{out}=\dyad{0}_1\otimes\dyad{T}$
+		\item Prover simply sends copies of $\ket{\histpsi{C(x)}}$ to the verifier.
+		\item Consider $H_{out}=\dyad{0}_1\otimes\dyad{T}$:
+		\item For yes-instances:
+			\begin{itemize}[<+->]
+				\item $\braket{\histpsi{C(x)}|H_{out}|\histpsi{C(x)}}<\frac{1}{3T}$
+				\item $\Rightarrow$ Same for $H_{C(x)}+H_{out}$.
+			\end{itemize}
+		\item For no-instances:
+			\begin{itemize}[<+->]
+				\item $\braket{\histpsi{C(x)}|H_{out}|\histpsi{C(x)}}>\frac{2}{3T}$
+				\item $\Rightarrow\braket{\psi|\left(H_{out}+H_{C(x)}\right)|\psi}$ is bounded below away from $\frac{1}{3T}$.
+			\end{itemize}
 	\end{itemize}
 
 \end{frame}
