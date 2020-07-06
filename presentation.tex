@@ -130,7 +130,7 @@
 	\pause
 	\\\hspace*{\fill}$\widehat{1^\lambda}\leftarrow\Enc(pk_1, 1^\lambda)$
 	\pause
-	\\\hspace*{\fill}$(\ctx{p}{1}{1}, \ctx{st}{P, 1}{1})\leftarrow\Eval(pk, \cP_1, \widehat{1^\lambda}, \ctx{v}{1}{1}, \ctx{x}{}{1})$
+	\\\hspace*{\fill}$(\ctx{p}{1}{1}, \ctx{st}{P, 1}{1})\leftarrow\Eval(pk_1, \cP_1, \widehat{1^\lambda}, \ctx{v}{1}{1}, \ctx{x}{}{1})$
 	\pause
 	\\\hspace*{\fill}$\xleftarrow{\qquad \ctx{p}{1}{1}\qquad}$\hspace*{\fill}
 	\pause
@@ -153,7 +153,7 @@
 	\pause
 	\\\hspace*{\fill}$\ctx{st}{1}{2}\leftarrow\Eval(pk_2, \Dec, \ctx{sk}{1}{2}, \ctx{st}{1}{1})$
 	\pause
-	\\\hspace*{\fill}$(\ctx{p}{2}{2}, \ctx{st}{P, 2}{2})\leftarrow\Eval(pk, \cP_2, \ctx{v}{2}{2}, \ctx{st}{P, 1}{2})$
+	\\\hspace*{\fill}$(\ctx{p}{2}{2}, \ctx{st}{P, 2}{2})\leftarrow\Eval(pk_2, \cP_2, \ctx{v}{2}{2}, \ctx{st}{P, 1}{2})$
 	\pause
 	\\\hspace*{\fill}$\xleftarrow{\qquad \ctx{p}{2}{2}\qquad}$\hspace*{\fill}
 	\pause
@@ -186,7 +186,7 @@
 	\pause
 	\\\hspace*{\fill}$\ctx{v}{1}{1}\leftarrow\Enc(pk_1, v_1)$
 	\pause
-	\\\hspace*{\fill}$(\ctx{p}{1}{1}, \ctx{st}{P, 1}{1})\leftarrow\cPblind{1}^*(pk, 1^\lambda, \ctx{v}{1}{1}, \ctx{x}{}{1})$
+	\\\hspace*{\fill}$(\ctx{p}{1}{1}, \ctx{st}{P, 1}{1})\leftarrow\cPblind{1}^*(pk_1, 1^\lambda, \ctx{v}{1}{1}, \ctx{x}{}{1})$
 	\pause
 	\\\hspace*{\fill}$p_1\leftarrow\Dec(sk_1, \ctx{p}{1}{1})$
 	\pause
@@ -194,8 +194,33 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Compiler for blindness: Blindness}
+	\frametitle{Soundness cont.}
+	$v_2\leftarrow\cV_2(p_{1}, st_{V, i})$
+	\pause
+	\\\hspace*{\fill}$\xrightarrow{\qquad v_2\qquad}$\hspace*{\fill}
+	\pause
+	\\\hspace*{\fill}$(pk_2, sk_2)\leftarrow\Gen(1^\lambda, 1^L)$
+	\pause
+	\\\hspace*{\fill}$\ctx{sk}{1}{2}\leftarrow\Enc(pk_2, sk_{1})$
+	\pause
+	\\\hspace*{\fill}$\ctx{v}{2}{2}\leftarrow\Enc(pk_2, v_2)$
+	\pause
+	\\\hspace*{\fill}$(\ctx{p}{2}{2}, \ctx{st}{P, 2}{2})\leftarrow\cPblind{2}^*(pk_2, \ctx{v}{2}{2}, \ctx{st}{P, 1}{1}, \ctx{sk}{1}{2})$
+	\pause
+	\\\hspace*{\fill}$p_2\leftarrow\Dec(sk_2, \ctx{p}{2}{2})$
+	\pause
+	\\\hspace*{\fill}$\xleftarrow{\qquad p_2\qquad}$\hspace*{\fill}
+\end{frame}
 
+\begin{frame}
+	\frametitle{Compiler for blindness: Blindness}
+	\begin{itemize}[<+->]
+		\item Suppose $\Vblind$ sends $\Enc(pk_T, 0)$ in place of $\ctx{sk}{T-1}{T}$...
+		\item then suppose $\Vblind$ sends $\Enc(pk_{T-1}, 0)$ in place of $\ctx{sk}{T-2}{T-1}$...
+		\item ...
+		\item then suppose $\Vblind$ sends $\Enc(pk_2, 0)$ in place of $\ctx{sk}{1}{2}$...
+		\item then suppose $\Vblind$ sends $\Enc(pk_1, 0)$ in place of $\ctx{x}{1}{1}$...
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
