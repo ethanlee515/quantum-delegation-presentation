@@ -75,7 +75,7 @@
 	\frametitle{Our contributions}
 	\begin{itemize}[<+->]
 		\item Combine verifiability and blindness
-		\item Generalize to sampling problems
+		\item Extend results to sampling problems
 	\end{itemize}
 \end{frame}
 
@@ -165,8 +165,32 @@
 	\begin{itemize}[<+->]
 		\item Completeness is trivial
 		\item Soundness by reduction
+			\begin{itemize}[<+->]
+				\item Assume for the sake of contradiction that...
+				\item there exists some cheating prover $P_\blind^*$ for $\Pi_\blind$.
+				\item We construct a cheating prover $P^*$ for $\Pi$.
+			\end{itemize}
 		\item Blindness by hybrid argument
 	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Soundness}
+	$(v_1, st_{V, 1})\leftarrow\cV_1(1^\lambda, x)$
+	\pause
+	\\\hspace*{\fill}$\xrightarrow{\qquad v_1\qquad}$\hspace*{\fill}
+	\pause
+	\\\hspace*{\fill}$(pk_1, sk_1)\leftarrow\Gen(1^\lambda, 1^L)$
+	\pause
+	\\\hspace*{\fill}$\ctx{x}{}{1}\leftarrow\Enc(pk_1, x)$
+	\pause
+	\\\hspace*{\fill}$\ctx{v}{1}{1}\leftarrow\Enc(pk_1, v_1)$
+	\pause
+	\\\hspace*{\fill}$(\ctx{p}{1}{1}, \ctx{st}{P, 1}{1})\leftarrow\cPblind{1}^*(pk, 1^\lambda, \ctx{v}{1}{1}, \ctx{x}{}{1})$
+	\pause
+	\\\hspace*{\fill}$p_1\leftarrow\Dec(sk_1, \ctx{p}{1}{1})$
+	\pause
+	\\\hspace*{\fill}$\xleftarrow{\qquad p_1\qquad}$\hspace*{\fill}
 \end{frame}
 
 \begin{frame}
