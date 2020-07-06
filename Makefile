@@ -1,4 +1,4 @@
-presentation.pdf: presentation.tex
+presentation.pdf: presentation.tex macros.tex
 	pdflatex presentation
 
 clean:

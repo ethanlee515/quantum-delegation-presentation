@@ -224,11 +224,28 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Verification under $\QPIP_1$ protocols}
-	MF16 for BQP
-	Different Hamiltonian for SampBQP
+	\frametitle{Local Hamiltonians}
+	\begin{itemize}[<+->]
+		\item We call $H=\sum_j H_j$ a \emph{Local Hamiltonian} if $H_j$ are local Hermitians.
+		\item Given enough copies of some $\ket\psi$, we can approximate $\braket{\psi|H|\psi}$ efficienty within inverse-poly errors.
+		\item This implies a verifiable delegation scheme for a client with limited quantum power.
+	\end{itemize}
+\end{frame}
 
-	Hcircuit and Hout
+\begin{frame}
+	\frametitle{Verification}
+	\begin{itemize}[<+->]
+		\item For quantum circuit $C=U_T\ldots U_1$ and input $x\in\zo^n$, we define $$\histpsi{C(x)}=\frac{1}{\sqrt{T}}\sum_{t=0}^TU_t\ldots U_1\ket{x,0}\otimes\ket{\hat{t}}$$
+		\item One can construct some Hamiltonian $H_{C(x)}$ so that $$\ker H_{C(x)}=\Span\set{\histpsi{C(x)}}$$
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Verification of $\BQP$}
+	\begin{itemize}[<+->]
+		\item Consider $H_{out}=\dyad{0}_1\otimes\dyad{T}$
+	\end{itemize}
+
 \end{frame}
 
 \begin{frame}
