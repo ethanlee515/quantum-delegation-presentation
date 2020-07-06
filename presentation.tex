@@ -35,8 +35,7 @@
 
 \begin{frame}
 	\frametitle{How would I get scammed?}
-	\pause
-	\begin{itemize}[<+->]
+	\begin{itemize}
 		\item It doesn't even work! \emph{(verifiability)}
 		\item My data is stolen! \emph{(blindness)}
 	\end{itemize}
@@ -46,9 +45,9 @@
 	\frametitle{Verifiability}
 	\begin{itemize}[<+->]
 		\item \emph{Quantum Merlin Arthur}-based solutions
-		\item MF16 - for $\BQP$ only; requires the client to hold 1 qubit
-		\item Mahadev - \emph{Measurement protocol} to allow fully classical client
-		\item parallel rep - Parallel repetition of above
+		\item \cite{mf16} - for $\BQP$ only; requires the client to hold 1 qubit
+		\item \cite{FOCS:Mahadev18a} - \emph{Measurement protocol} to allow fully classical client
+		\item \cite{arXiv:ChiaChungYam19} - Parallel repetition of above
 	\end{itemize}
 \end{frame}
 
@@ -56,7 +55,7 @@
 	\frametitle{Blindness}
 	\begin{itemize}[<+->]
 		\item \emph{Homomorphic encryption}-based solutions
-		\item Mahadev - Fully classical client
+		\item \cite{mahadev_qfhe} - Fully classical client
 	\end{itemize}
 \end{frame}
 
@@ -80,7 +79,7 @@
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Quantum Homomorphic Encryption Schemes}
+	\frametitle{Homomorphic Encryption Schemes}
 	$$(pk, sk)\leftarrow\Gen(\lambda, 1^L)$$
 	\begin{center}
 		\begin{tikzcd}[row sep = 4.8em, column sep = 9.6em]
@@ -256,6 +255,11 @@
 \begin{frame}
 	\frametitle{Parallel repetitions of measurement protocol?}
 
+\end{frame}
+
+\begin{frame}{References}
+	\bibliographystyle{amsalpha}
+	\bibliography{refs}
 \end{frame}
 
 \end{document}
