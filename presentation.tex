@@ -75,8 +75,16 @@
 \begin{frame}
 	\frametitle{Our contributions}
 	\begin{itemize}[<+->]
-		\item Combine verifiability and blindness
+		\item Compose verifiability and blindness protocols
 		\item Extend results to sampling problems
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Achieving blindness}
+	\begin{itemize}[<+->]
+		\item Assume there exists some verifiable protocol $\Pi=(P, V)(\lambda, x)$.
+		\item Compile $\Pi$ to $\Pi_\blind$ by running it under homomorphic encryption.
 	\end{itemize}
 \end{frame}
 
@@ -262,9 +270,9 @@
 \begin{frame}
 	\frametitle{Verification of $\SampBQP$}
 	\begin{itemize}[<+->]
-		\item First use \emph{de Finetti's theorem} to approximate the copies as iid.
-		\item Pad the circuit with identity gates so there's high probability to get $C(x)$ when $\ket{\histpsi{C(x)}}$ is measured
-		\item Cut-and-choose; pick a random copy to output and check the rest.
+		\item Pad the circuit with identity gates so there's high probability to get $C(x)$ when $\ket{\histpsi{C(x)}}$ is measured.
+		\item Use \emph{de Finetti's theorem} to simplify the prover's message.
+		\item Pick a random copy to output and check the rest.
 	\end{itemize}
 \end{frame}
 
@@ -286,9 +294,19 @@
 \begin{frame}
 	\frametitle{Using de Finetti's Theorem}
 	\begin{itemize}
-		\item Observation: (state) is permutation-invariant
+		\item Observation: $$\sigma=\E_{\Pi\in\Sym(k)}\Pi\rho\Pi^\dag$$ is permutation-invariant
+		\item Picking the first $l$ registers of $\sigma$ is equivalent to picking $l$ random registers.
+		\item Analyze each $\bigotimes\rho_i$ separately since it's a classical mix.
 	\end{itemize}
+\end{frame}
 
+\begin{frame}
+	\frametitle{Allowing fully classical clients}
+	\begin{itemize}
+		\item Mahadev's \emph{measurement protocol} allows the server to commit to a state $\rho$.
+		\item The client picks a basis $h$ and gets the corresponding measurement result $v$.
+		\item Theorem statement comes after protocol sketch.
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -317,13 +335,13 @@
 \begin{frame}
 	\frametitle{Binding property}
 	Under the QLWE assumption...
-	\begin{itemize}
-		\item Let prover
-		\item Let sec param
-		\item If pass
-		\item Exists state
-		\item For all h
-		\item v indis from measurement on rho
+	\begin{itemize}[<+->]
+		\item Let $P^*$ be a cheating $\BQP$ prover.
+		\item Let $\lambda$ be the security parameter.
+		\item If $P^*$ is accepted with overwhelming probability when $c=0$,
+		\item then there exists some $\rho$ (\emph{binding}),
+		\item for all basis choice $h$,
+		\item when $c=1$, $v$ is computationally indistinguishable from measurement on $\rho$
 	\end{itemize}
 \end{frame}
 
