@@ -74,7 +74,7 @@
 
 \begin{frame}
 	\frametitle{Our contributions}
-	\begin{itemize}[<+->]
+	\begin{itemize}
 		\item Compose verifiability and blindness protocols
 		\item Extend results to sampling problems
 	\end{itemize}
@@ -174,9 +174,8 @@
 		\item Completeness is trivial
 		\item Soundness by reduction
 			\begin{itemize}[<+->]
-				\item Assume for the sake of contradiction that...
-				\item there exists some cheating prover $P_\blind^*$ for $\Pi_\blind$.
-				\item We construct a cheating prover $P^*$ for $\Pi$.
+				\item Assume there exists some cheating prover $P_\blind^*$ for $\Pi_\blind$,
+				\item we construct a cheating prover $P^*$ for $\Pi$.
 			\end{itemize}
 		\item Blindness by hybrid argument
 	\end{itemize}
@@ -234,9 +233,9 @@
 \begin{frame}
 	\frametitle{Local Hamiltonians}
 	\begin{itemize}[<+->]
-		\item We call $H=\sum_j H_j$ a \emph{Local Hamiltonian} if $H_j$ are local Hermitians.
+		\item We call $H=\sum_j H_j$ a \emph{Local Hamiltonian} if $H_j$ are Hermitians acting on $O(1)$ qubits.
 		\item Given enough copies of some $\ket\psi$, we can approximate $\braket{\psi|H|\psi}$ efficienty within inverse-poly errors.
-		\item This implies a verifiable delegation scheme for a client with limited quantum power.
+		\item This leads to a verifiable delegation scheme for a client with limited quantum power.
 	\end{itemize}
 \end{frame}
 
@@ -270,9 +269,9 @@
 \begin{frame}
 	\frametitle{Verification of $\SampBQP$}
 	\begin{itemize}[<+->]
+		\item High-level idea: pick a random copy to output and check the rest.
 		\item Pad the circuit with identity gates so there's high probability to get $C(x)$ when $\ket{\histpsi{C(x)}}$ is measured.
 		\item Use \emph{de Finetti's theorem} to simplify the prover's message.
-		\item Pick a random copy to output and check the rest.
 	\end{itemize}
 \end{frame}
 
@@ -293,16 +292,20 @@
 
 \begin{frame}
 	\frametitle{Using de Finetti's Theorem}
-	\begin{itemize}
+	\begin{itemize}[<+->]
 		\item Observation: $$\sigma=\E_{\Pi\in\Sym(k)}\Pi\rho\Pi^\dag$$ is permutation-invariant
 		\item Picking the first $l$ registers of $\sigma$ is equivalent to picking $l$ random registers.
-		\item Analyze each $\bigotimes\rho_i$ separately since it's a classical mix.
+		\item The rest of the analysis is straightforward.
+			\begin{itemize}[<+->]
+				\item Analyze each $\bigotimes\rho_i$ separately since it's a classical mix.
+				\item If $\braket{\rho_i|H_{C(x)}|\rho_i}$ is low, then $\rho_i$ is close to $\ket{\histpsi{C(x)}}$.
+			\end{itemize}
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Allowing fully classical clients}
-	\begin{itemize}
+	\begin{itemize}[<+->]
 		\item Mahadev's \emph{measurement protocol} allows the server to commit to a state $\rho$.
 		\item The client picks a basis $h$ and gets the corresponding measurement result $v$.
 		\item Theorem statement comes after protocol sketch.
@@ -339,9 +342,17 @@
 		\item Let $P^*$ be a cheating $\BQP$ prover.
 		\item Let $\lambda$ be the security parameter.
 		\item If $P^*$ is accepted with overwhelming probability when $c=0$,
-		\item then there exists some $\rho$ (\emph{binding}),
+		\item then there exists some $\rho$,
 		\item for all basis choice $h$,
 		\item when $c=1$, $v$ is computationally indistinguishable from measurement on $\rho$
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Using the measurement protocol}
+	\begin{itemize}[<+->]
+		\item For $\BQP$, just give it to the prover for free if it's testing round.
+		\item For $\SampBQP$, run many copies in parallel. Randomly pick one copy for Hadamard round.
 	\end{itemize}
 \end{frame}
 
